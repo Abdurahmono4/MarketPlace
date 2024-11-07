@@ -2,8 +2,9 @@
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth"; // Import getAuth
+import { getAuth } from "firebase/auth";
 
+// Firebase config - make sure to keep your credentials secure!
 const firebaseConfig = {
   apiKey: "AIzaSyC6v97LxtE9-kVH1-zUewc5f0Kf_WxhSqM",
   authDomain: "books-b801f.firebaseapp.com",
@@ -14,9 +15,15 @@ const firebaseConfig = {
   measurementId: "G-YX883YR7J9",
 };
 
-// Initialize Firebase
+// Initialize Firebase only if it's running on the client
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+let analytics;
+if (typeof window !== "undefined") {
+  // Analytics should only be used in a browser environment
+  analytics = getAnalytics(app);
+}
+
 const auth = getAuth(app);
 
-export { app, auth };
+// Export firebase app and auth for use in your app
+export { app, auth, analytics };
